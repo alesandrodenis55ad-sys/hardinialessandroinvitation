@@ -1,0 +1,695 @@
+:root {
+    --color-navy-dark: #07111E;
+    --color-navy: #0A192F;
+    --color-navy-card: rgba(15, 30, 54, 0.85);
+    --color-gold: #D4AF37;
+    --color-gold-light: #F3E5AB;
+    --color-text: #E6EDF3;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Background utama diubah menggunakan background1.png dari bagian mempelai ke bawah */
+body {
+   background-color: var(--color-navy-dark);
+    color: var(--color-text); 
+    font-family: var(--font-body); 
+    line-height: 1.7; 
+    padding-bottom: 70px;
+    position: relative;
+    margin: 0;
+}
+
+/* Membuat lapisan background khusus yang diam di belakang (fixed) tapi tidak pecah */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/background1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -999; /* Memastikan posisinya selalu di paling belakang */
+    pointer-events: none;
+}
+
+h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: var(--color-gold-light); font-weight: 400; }
+.hidden { display: none !important; }
+
+/* TRANSISI HALAMAN SAMPUL (SMOOTH SLIDE-UP) */
+.cover-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 3rem 1.5rem 2.5rem 1.5rem;
+    overflow: hidden;
+    transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-in-out;
+}
+
+.cover-page.slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Foto Background Full Screen */
+.cover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+}
+
+/* Hapus warna navy di tengah, ganti dengan gradasi tipis di bagian bawah saja */
+.cover-page::before {
+    display: none; 
+}
+
+.cover-bottom-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    background: linear-gradient(180deg, transparent 0%, rgba(7, 17, 30, 0.85) 70%, rgba(7, 17, 30, 0.95) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Bagian Atas Cover */
+.cover-top-content {
+    z-index: 2;
+    padding-top: 1rem;
+}
+
+.small-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #0A192F;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.couple-names-cover {
+    font-size: 2.2rem;
+    font-family: var(--font-heading);
+    color: #FFF;
+    line-height: 1.1;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.wedding-date-cover {
+    font-style: italic;
+    font-size: 0.9rem;
+    font-family: var(--font-heading);
+    color: #0A192F;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* Bagian Bawah Cover */
+.cover-bottom-content {
+    z-index: 2;
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.guest-info-cover {
+    background: rgba(7, 17, 30, 0.45);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    padding: 0.8rem 1.5rem;
+    width: 100%;
+}
+
+.guest-info-cover p {
+    font-size: 0.8rem;
+    color: #D1D5DB;
+    margin-bottom: 0.2rem;
+}
+
+.guest-name-cover {
+    font-size: 1.3rem;
+    font-family: var(--font-heading);
+    color: #FFF;
+    margin: 0;
+}
+/* ANIMASI LOTTIE BURUNG */
+.lottie-birds { 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+    z-index: 1; pointer-events: none !important; object-fit: cover; opacity: 0.85; 
+}
+
+/* BUTTONS */
+.btn-primary, .btn-secondary, .btn-copy, .btn-instagram { display: inline-block; padding: 12px 28px; font-family: var(--font-body); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: all 0.3s ease; border-radius: 25px; text-decoration: none; text-align: center; position: relative; z-index: 10; }
+.btn-primary { background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%); color: #07111E; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+.btn-secondary, .btn-copy { background: transparent; color: var(--color-gold); border: 1px solid var(--color-gold); }
+.btn-instagram { background: rgba(212, 175, 55, 0.15); color: var(--color-gold-light); border: 1px solid var(--color-gold); font-size: 0.75rem; padding: 8px 18px; margin-top: 10px; }
+
+/* EFEK TRANSISI SCROLL (FADE-IN & SLIDE-UP) */
+section {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+    padding: 1rem 1.5rem; max-width: 800px; margin: 0 auto; text-align: center;
+}
+section.visible { opacity: 1; transform: translateY(0); }
+.couple-card, .story-card, .card, .collage-item, .bank-card {
+    opacity: 0; transform: translateY(25px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.couple-card.fade-in-up, .story-card.fade-in-up, .card.fade-in-up, .collage-item.fade-in-up, .bank-card.fade-in-up {
+    opacity: 1; transform: translateY(0);
+}
+.collage-item:nth-child(odd) { transition-delay: 0.1s; }
+.collage-item:nth-child(even) { transition-delay: 0.3s; }
+
+.section-title { font-size: 2rem; margin-bottom: 1rem; color: var(--color-gold); }
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; background-size: cover; background-position: center; padding: 0; overflow: hidden; transition: background-image 1.5s ease-in-out; }
+.hero-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 17, 30, 0.35); z-index: 1; }
+.hero-text { position: relative; z-index: 3; padding: 2rem; text-align: center; }
+.small-title-gold { letter-spacing: 5px; font-size: 0.85rem; color: var(--color-gold); margin-bottom: 1rem; }
+.couple-hero-title { font-size: 3.2rem; color: #FFF; margin-bottom: 0.5rem; }
+.hero-date { font-family: var(--font-heading); font-size: 1.2rem; color: var(--color-gold-light); margin-bottom: 2.5rem; }
+
+.countdown-container { display: flex; justify-content: center; gap: 12px; }
+.countdown-box { background: rgba(10, 25, 47, 0.85); border: 1px solid var(--color-gold); border-radius: 8px; padding: 12px; min-width: 70px; }
+.countdown-box span { display: block; font-size: 1.5rem; font-family: var(--font-heading); color: var(--color-gold-light); font-weight: bold; }
+.countdown-box label { font-size: 0.7rem; text-transform: uppercase; color: var(--color-text); }
+
+/* MEMPELAI SECTION */
+.quote-text { font-style: italic; color: #D1D5DB; font-size: 0.95rem; margin-bottom: 3rem; padding: 0 1rem; }
+.couple-container { display: flex; flex-direction: column; gap: 2.5rem; align-items: center; }
+.couple-card { background: var(--color-navy-card); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 16px; padding: 2.5rem 1.5rem; width: 100%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); text-align: center; }
+.profile-photo-wrapper { width: 150px; height: 180px; margin: 0 auto 1.5rem auto; border-radius: 50%/35%; border: 2px solid var(--color-gold); overflow: hidden; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+.profile-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.couple-name-title { font-size: 1.4rem; color: #FFF; margin-bottom: 0.5rem; }
+.couple-parents { font-size: 0.85rem; color: #9CA3AF; margin-bottom: 1rem; }
+.couple-divider { font-size: 2.5rem; font-family: var(--font-heading); color: var(--color-gold); }
+
+/* STORY & EVENT */
+.story-card { background: var(--color-navy-card); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 12px; padding: 2rem 1.5rem; text-align: justify; }
+.story-card p { margin-bottom: 1.2rem; font-size: 0.95rem; color: #D1D5DB; }
+.story-highlight { font-family: var(--font-heading); font-style: italic; text-align: center; color: var(--color-gold-light) !important; margin-top: 1.5rem; }
+
+.event-cards { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media(min-width: 768px) { .event-cards { grid-template-columns: 1fr 1fr; } }
+.card { background: var(--color-navy-card); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 1.5rem 1.2rem; }
+.card h4 { font-size: 1.6rem; color: var(--color-gold); margin-bottom: 1rem; }
+.date-big { font-size: 3.5rem; font-family: var(--font-heading); color: #FFF; line-height: 1; }
+.card .address { font-size: 0.85rem; color: #9CA3AF; margin-bottom: 1.5rem; }
+
+/* KOLASE GRID */
+.collage-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+@media(min-width: 600px) { .collage-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+.collage-item { position: relative; overflow: hidden; border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3); aspect-ratio: 1 / 1; }
+.collage-item:nth-child(3n+1) { aspect-ratio: 3 / 4; } 
+.collage-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.collage-item:hover img { transform: scale(1.05); }
+
+/* DIGITAL GIFT & RSVP */
+.bank-cards { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+@media(min-width: 600px) { .bank-cards { grid-template-columns: 1fr 1fr; } }
+.bank-card { background: var(--color-navy-card); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 2rem 1.5rem; }
+.bank-logo { font-size: 1.5rem; font-weight: bold; color: var(--color-gold); }
+.bank-number { font-size: 1.3rem; font-family: monospace; color: #FFF; margin: 0.8rem 0; }
+
+/* =========================================
+   STYLING RSVP / BUKU TAMU BARU
+   ========================================= */
+.rsvp-section {
+    padding: 3rem 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Kotak Kartu Pembungkus RSVP dengan Background Terang & Elegan */
+.rsvp-card-container {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    border-radius: 20px;
+    padding: 2.5rem 1.8rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+.rsvp-card-container .section-title {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: #0A192F !important; /* Warna Navy */
+    margin-bottom: 0.8rem;
+    letter-spacing: 2px;
+}
+
+.rsvp-desc {
+    font-size: 0.9rem;
+    color: #0A192F !important; /* Warna Navy */
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #0A192F !important; /* Warna Navy */
+}
+
+/* Input, Select, dan Textarea dengan Teks Navy */
+.rsvp-form input, 
+.rsvp-form select, 
+.rsvp-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid #B08D57; /* Border emas gelap */
+    border-radius: 8px;
+    color: #0A192F !important; /* Teks input berwarna navy */
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.rsvp-form input::placeholder, 
+.rsvp-form textarea::placeholder {
+    color: #556070; /* Placeholder agak abu-navy agar tetap terbaca */
+}
+
+.radio-group {
+    display: flex;
+    gap: 2rem;
+    padding: 0.5rem 0;
+    color: #0A192F;
+    font-size: 0.9rem;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: normal;
+    color: #0A192F !important;
+}
+
+/* Tombol Kirim RSVP */
+.btn-rsvp-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #D4AF37 0%, #AA7C11 100%);
+    color: #07111E;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-weight: bold;
+    font-size: 0.95rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    margin-top: 0.5rem;
+}
+
+.btn-rsvp-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Area Daftar Ucapan */
+.rsvp-display-area {
+    margin-top: 2rem;
+    text-align: left;
+    border-top: 1px solid rgba(176, 141, 87, 0.3);
+    padding-top: 1.5rem;
+}
+
+.guestbook-title {
+    color: #0A192F !important;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.rsvp-message-item {
+    background: rgba(245, 240, 230, 0.7);
+    border: 1px solid rgba(176, 141, 87, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: #0A192F;
+}
+
+.rsvp-message-item h5 {
+    color: #0A192F !important;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.3rem;
+}
+
+.rsvp-message-item p {
+    color: #334155;
+    font-size: 0.9rem;
+}
+
+/* NAV & FOOTER */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000; background: rgba(7, 17, 30, 0.95); border-top: 1px solid rgba(212, 175, 55, 0.3); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px 0; }
+.nav-item { display: flex; flex-direction: column; align-items: center; color: #9CA3AF; text-decoration: none; font-size: 0.65rem; transition: all 0.3s ease; }
+.nav-item svg { margin-bottom: 2px; }
+.nav-item.active, .nav-item:hover { color: var(--color-gold); }
+
+.music-control { position: fixed; bottom: 75px; right: 20px; z-index: 999; background: var(--color-gold); border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; }
+footer { text-align: center; padding: 2rem 1rem; color: #6B7280; font-size: 0.85rem; }
+
+/* =========================================
+   LIGHTBOX & ZOOM GALLERY STYLING
+   ========================================= */
+.gallery-section {
+    padding: 3rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-subtitle {
+    font-size: 0.9rem;
+    color: #9CA3AF;
+    margin-bottom: 2rem;
+}
+
+/* Tata Letak Pinterest Grid Asimetris */
+.pinterest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    grid-auto-rows: 180px;
+}
+
+@media (min-width: 768px) {
+    .pinterest-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 220px;
+    }
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+}
+
+/* Variasi kotak asimetris ala Pinterest */
+.gallery-item.tall {
+    grid-row: span 2;
+}
+
+.gallery-item.wide {
+    grid-column: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+/* Efek Hover Gen Z (Smooth Zoom & Glow) */
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+
+/* =========================================
+   LIGHTBOX / TAP-TO-ZOOM MODAL
+   ========================================= */
+.lightbox-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(7, 17, 30, 0.92);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.lightbox-modal img {
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #FFF;
+    font-size: 2.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+.quote-content-box {
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.flower-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.quote-intro-text {
+    font-size: 0.95rem;
+    color: #D1D5DB;
+    line-height: 1.8;
+}
+/* Styling Section Foto Sebelum Acara */
+.quote-photo-section {
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 3rem 0;
+    text-align: center;
+    background: transparent !important;
+}
+
+.photo-banner-wrapper {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Lapisan gradasi agar bagian bawah foto melebur halus (tidak ada batas kaku) */
+.photo-fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(7, 17, 30, 0) 0%, var(--color-navy-dark, #07111E) 100%);
+    pointer-events: none;
+}
+
+.quote-content-box {
+    padding: 2.5rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.flower-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.quote-intro-text {
+    font-size: 0.95rem;
+    color: #D1D5DB;
+    line-height: 1.8;
+}
+/* Styling Section Foto Pengantar Sebelum Acara (Sudut Kotak / Tanpa Rounded) */
+.quote-photo-section {
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 3rem 0;
+    text-align: center;
+    background: transparent !important;
+    position: relative;
+}
+
+.photo-banner-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Jarak antar foto */
+}
+
+.banner-photo-item {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 0 !important; /* Memastikan sudut benar-benar kotak */
+}
+
+/* Lapisan gradasi bawah agar menyatu dengan background */
+.photo-fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(7, 17, 30, 0) 0%, var(--color-navy-dark, #07111E) 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.quote-content-box {
+    padding: 2.5rem 1.5rem;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+}
+
+.flower-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.quote-intro-text {
+    font-size: 0.95rem;
+    color: #D1D5DB;
+    line-height: 1.8;
+}
+/* Tampilan Kotak Kartu Ucapan di Layar */
+#rsvp-messages-list {
+    max-height: 350px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-right: 5px;
+}
+
+.rsvp-message-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    animation: fadeInMessage 0.5s ease-out;
+}
+
+.rsvp-message-item h5 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+    color: #0A192F !important;
+    margin-bottom: 0.4rem;
+}
+
+.sender-name {
+    font-weight: bold;
+    color: #0A192F;
+}
+
+.attendance-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: normal;
+}
+
+.badge- hadir, .attendance-badge {
+    background: #d4edda;
+    color: #155724;
+}
+
+.sender-message {
+    font-size: 0.9rem;
+    color: #334155;
+    line-height: 1.5;
+    margin-bottom: 0.3rem;
+    word-break: break-word;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #8892B0;
+}
+
+.no-message {
+    color: #556070;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+@keyframes fadeInMessage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
